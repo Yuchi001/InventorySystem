@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using ItemsPack.SO;
 using Managers;
@@ -18,9 +19,10 @@ namespace InventoryPack
         public int CurrentWeight => _itemSlots.Where(i => !i.IsEmpty()).Sum(i => i.ViewItem().ItemWeight);
         public Canvas CurrentCanvas { get; private set; }
 
-        private void Awake()
+        private IEnumerator Start()
         {
-            gameObject.SetActive(false);
+            yield return new WaitUntil(() => GameManager.Instance != null);
+            
             CurrentCanvas = GetComponentInParent<Canvas>();
             
             var itemSlotPrefab = GameManager.Instance.GetPrefab<ItemSlot>(PrefabNames.ItemSlot);
