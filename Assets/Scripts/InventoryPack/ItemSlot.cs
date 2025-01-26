@@ -1,11 +1,12 @@
-﻿using ItemsPack.SO;
+﻿using General;
+using ItemsPack.SO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace InventoryPack
 {
-    public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+    public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
         //private Box _box;
         private SoItem _current = null;
@@ -23,6 +24,7 @@ namespace InventoryPack
             _itemImage = GetComponent<Image>();
             _dragColor = new Color(1, 1, 1, 0.3f);
             Index = index;
+            _itemImage.color = Color.clear;
         }
 
         public bool TryAddNewItem(SoItem item)
@@ -31,6 +33,7 @@ namespace InventoryPack
 
             _current = Instantiate(item);
             _itemImage.sprite = _current.ItemSprite;
+            _itemImage.color = Color.white;
             return true;
         }
 
@@ -38,6 +41,7 @@ namespace InventoryPack
         {
             _current = item ? Instantiate(item) : null;
             _itemImage.sprite = _current ? _current.ItemSprite : null;
+            _itemImage.color = item ? Color.white : Color.clear;
         }
 
         public SoItem ViewItem()
@@ -67,7 +71,17 @@ namespace InventoryPack
                 _dragItemSlot.EndDrag(itemSlot.Index, itemSlot.GetComponentInParent<Box>());
             else _dragItemSlot.EndDrag();
             
-            _itemImage.color = Color.white;
+            _itemImage.color = IsEmpty() ? Color.clear : Color.white;
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            ItemHoverManager.HoverItemStart(_current);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            ItemHoverManager.HoverItemEnd(_current);
         }
     }
 }

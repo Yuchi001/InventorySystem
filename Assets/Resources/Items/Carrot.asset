@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Carrot
   m_EditorClassIdentifier: 
   itemName: Carrot
+  itemDescription: this is a carrot, it looks good on snowman
   itemSprite: {fileID: 21300000, guid: f19557e1f6798904d8334291a1400726, type: 3}
   itemWeight: 1
