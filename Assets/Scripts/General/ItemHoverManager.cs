@@ -42,7 +42,7 @@ namespace General
         {
             if (!item)
             {
-                if (!Instance._current) Instance.Init(); 
+                if (Instance._current) Instance.Init(); 
                 return;
             }
 
@@ -56,7 +56,7 @@ namespace General
 
         public static void HoverItemEnd(SoItem item)
         {
-            if (Instance._current != null && Instance._current == item) return;
+            if (Instance._current != null && Instance._current != item) return;
             
             Instance.itemName.text = "";
             Instance.itemDescription.text = "";
